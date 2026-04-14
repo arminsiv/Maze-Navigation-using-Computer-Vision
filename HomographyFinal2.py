@@ -5,7 +5,7 @@ INPUT_IMAGE = "C:/Users/Armin/undistorted_image_output.png"
 OUTPUT_IMAGE = "C:/Users/Armin/maze_topdown.png" \
 ""
 
-# Output size (adjust as needed)
+# Output size 
 OUTPUT_WIDTH = 1410 # pixels
 OUTPUT_HEIGHT =  1251 # pixels
 
@@ -26,7 +26,7 @@ def click_corners(image):
     
     # Create resizable window
     cv2.namedWindow("Click 4 Corners", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("Click 4 Corners", 474, 415)  # Adjust this size for your screen
+    cv2.resizeWindow("Click 4 Corners", 474, 415)  
     cv2.imshow("Click 4 Corners", image_copy)
     cv2.setMouseCallback("Click 4 Corners", mouse_callback)
     
