@@ -1,13 +1,22 @@
 import cv2
 import numpy as np
+import yaml
+import os
+from pathlib import Path
 
-INPUT_IMAGE = "C:/Users/Armin/undistorted_image_output.png"
-OUTPUT_IMAGE = "C:/Users/Armin/maze_topdown.png" \
-""
+# Load configuration
+config_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
+with open(config_path, 'r') as f:
+    config = yaml.safe_load(f)
 
-# Output size 
-OUTPUT_WIDTH = 1410 # pixels
-OUTPUT_HEIGHT =  1251 # pixels
+# Get paths from config
+INPUT_IMAGE = config['paths']['input']['undistorted_image']
+OUTPUT_IMAGE = config['paths']['output']['maze_topdown']
+OUTPUT_WIDTH = config['homography']['output_width']
+OUTPUT_HEIGHT = config['homography']['output_height']
+
+# Ensure output directory exists
+Path(os.path.dirname(OUTPUT_IMAGE)).mkdir(parents=True, exist_ok=True)
 
 def click_corners(image):
     """Click 4 corners: Top-Left, Top-Right, Bottom-Right, Bottom-Left"""
@@ -74,4 +83,8 @@ top_down = cv2.warpPerspective(image, H, (OUTPUT_WIDTH, OUTPUT_HEIGHT))
 cv2.imwrite(OUTPUT_IMAGE, top_down)
 print(f"\n✓ Saved: {OUTPUT_IMAGE}")
 
-np.save("C:/Users/Armin/homography_matrix10.npy", H)
+# Save homography matrix
+homography_path = config['paths']['calibration']['homography_matrix']
+Path(os.path.dirname(homography_path)).mkdir(parents=True, exist_ok=True)
+np.save(homography_path, H)
+print(f"✓ Saved homography matrix: {homography_path}")

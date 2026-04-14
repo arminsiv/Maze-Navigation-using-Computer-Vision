@@ -1,0 +1,132 @@
+# Maze Navigation Project Configuration
+# Define all paths and parameters for the vision-based navigation system
+
+# ================================================================
+# PATHS
+# ================================================================
+paths:
+  # Input images
+  input:
+    raw_camera_image: "./data/raw_camera_image.png"
+    undistorted_image: "./data/undistorted_image_output.png"
+    checkerboard_images_dir: "./data/calibration_checkerboards/"
+  
+  # Output images
+  output:
+    maze_topdown: "./output/maze_topdown.png"
+    astar_visualization: "./output/Astar.jpeg"
+    movement_trace: "./output/movement.jpeg"
+    navigation_video: "./output/Test.MOV"
+  
+  # Calibration data
+  calibration:
+    camera_matrix: "./calibration/camera_matrix.npy"
+    distortion_coefficients: "./calibration/distortion_coeff.npy"
+    homography_matrix: "./calibration/homography_matrix.npy"
+  
+  # Pathfinding
+  pathfinding:
+    waypoints: "./data/astar_path_simplified.npy"
+    maze_binary: "./data/maze_binary.png"
+
+# ================================================================
+# CAMERA CALIBRATION
+# ================================================================
+camera:
+  # Checkerboard pattern for calibration
+  checkerboard:
+    rows: 9          # Number of inner corners in height
+    cols: 6          # Number of inner corners in width
+    square_size: 2.5 # cm per square
+  
+  # Image resolution
+  resolution:
+    width: 1280
+    height: 720
+  
+  # Camera distortion parameters (will be computed)
+  focal_length_x: null
+  focal_length_y: null
+  principal_point_x: null
+  principal_point_y: null
+
+# ================================================================
+# HOMOGRAPHY & PERSPECTIVE CORRECTION
+# ================================================================
+homography:
+  # Output dimensions for top-down view (in pixels)
+  output_width: 1410
+  output_height: 1251
+  
+  # Real-world maze dimensions
+  maze_width_cm: 470    # cm
+  maze_height_cm: 417   # cm
+  
+  # Pixels per cm for scaling
+  # Calculated as: output_width / maze_width_cm
+  pixels_per_cm: 3.0
+
+# ================================================================
+# MAZE ANALYSIS & PATHFINDING
+# ================================================================
+maze_analysis:
+  # Binary image thresholding for wall detection
+  threshold_value: 127
+  
+  # Wall and space detection
+  wall_color: 0         # Black (0-255, 0=black, 255=white)
+  space_color: 255      # White
+  
+  # A* pathfinding
+  use_diagonal_movement: true
+  diagonal_cost_multiplier: 1.414  # sqrt(2)
+
+# ================================================================
+# ROBOT NAVIGATION
+# ================================================================
+robot:
+  # Communication
+  connection_type: "bluetooth"
+  robot_name: "Robot 3"
+  
+  # Navigation parameters
+  initial_heading: 0.0          # degrees (0°=East, 90°=North, 180°=West, 270°=South)
+  movement_scale_correction: 0.85  # Reduce movement by 15%
+  
+  # Rotation precision
+  min_rotation_threshold: 3.0   # degrees (don't turn if less than this)
+  
+  # Movement precision
+  min_movement_threshold: 1.0   # cm (don't move if less than this)
+  
+  # Lights and feedback
+  navigation_led_color:
+    r: 0
+    g: 0
+    b: 255  # Blue during movement
+
+# ================================================================
+# LOGGING & DEBUG
+# ================================================================
+logging:
+  verbose: true
+  save_intermediate_images: true
+  log_waypoint_progress: true
+  
+  # Output log file
+  log_file: "./logs/navigation.log"
+
+# ================================================================
+# PROCESSING PARAMETERS
+# ================================================================
+processing:
+  # Image preprocessing
+  blur_kernel_size: 5
+  morph_kernel_size: 5
+  
+  # Number of morphological operations for wall cleaning
+  dilate_iterations: 2
+  erode_iterations: 2
+  
+  # Contour detection
+  min_contour_area: 50  # pixels

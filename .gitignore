@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data files (large binary files)
+data/*.png
+data/*.jpg
+data/*.jpeg
+data/*.npy
+data/calibration_checkerboards/
+
+# Calibration outputs (can be regenerated)
+calibration/*.npy
+
+# Output files (can be regenerated)
+output/*.png
+output/*.jpg
+output/*.jpeg
+output/*.mov
+output/*.MOV
+
+# Logs
+logs/*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.zip
+*.tar.gz
